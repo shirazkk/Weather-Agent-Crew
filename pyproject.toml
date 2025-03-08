@@ -1,0 +1,21 @@
+[project]
+name = "weather_internet_agent_chat"
+version = "0.1.0"
+description = "weather_internet_agent_chat using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "crewai[tools]>=0.86.0,<1.0.0",
+    "google-generativeai>=0.8.4",
+]
+
+[project.scripts]
+weather_internet_agent_chat = "weather_internet_agent_chat.main:run"
+run_crew = "weather_internet_agent_chat.main:run"
+train = "weather_internet_agent_chat.main:train"
+replay = "weather_internet_agent_chat.main:replay"
+test = "weather_internet_agent_chat.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
