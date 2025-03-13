@@ -1,46 +1,50 @@
----
-collect_weather_input:
-  description: 'Prompt the user to provide the necessary location details: {city}
-    and {country}. Ensure that the inputs are validated before proceeding.'
-  expected_output: 'Collected and validated inputs: {city} and {country}.'
-  async_execution: false
-  agent: weather_input_collector
+# ---
+# collect_weather_input:
+#   description: 'Prompt the user to provide the necessary location details: {city}. Ensure that the inputs are validated before proceeding.'
+#   expected_output: 'Collected and validated inputs: {city}.'
+#   async_execution: false
+#   agent: weather_input_collector
 
-build_weather_query:
-  description: 'Using the provided input {city} and {country}, construct a precise
-    search query in the format: ''latest weather in {city}, {country}''.'
-  expected_output: 'Constructed query string: ''latest weather in {city}, {country}''.'
-  async_execution: false
-  agent: weather_query_builder
-  context:
-  - collect_weather_input
+# build_weather_query:
+#   description: 'Using the provided input {city}, construct a precise
+#     search query in the format: ''latest weather in {city}''.'
+#   expected_output: 'Constructed query string: ''latest weather in {city}''.'
+#   async_execution: false
+#   agent: weather_query_builder
+#   context:
+#   - collect_weather_input
 
-retrieve_weather_data:
-  description: Utilize the WebsiteSearchTool along with the constructed query to fetch
-    the latest weather data for {city} and {country}.
-  expected_output: Raw weather data fetched from the internet including temperature,
-    humidity, wind speed, and conditions.
-  async_execution: false
-  agent: weather_data_retriever
-  context:
-  - build_weather_query
+# retrieve_weather_data:
+#   description: Utilize the weather api along with the constructed query to fetch
+#     the real-time weather data for {city}.
+#   expected_output: Raw weather data fetched from the weather api including temperature,
+#     humidity, wind speed, and conditions.
+#   async_execution: false
+#   agent: weather_data_retriever
+#   context:
+#   - build_weather_query
 
-parse_weather_data:
-  description: Analyze the raw weather data to extract key details such as temperature,
-    humidity, wind conditions, and other relevant weather information.
-  expected_output: A structured summary containing key weather details for the provided
-    location.
-  async_execution: false
-  agent: weather_data_parser
-  context:
-  - retrieve_weather_data
+# parse_weather_data:
+#   description: Analyze the raw weather data to extract key details such as temperature,
+#     humidity, wind conditions, and other relevant weather information.
+#   expected_output: A structured summary containing key weather details for the provided
+#     location.
+#   async_execution: false
+#   agent: weather_data_parser
+#   context:
+#   - retrieve_weather_data
   
-generate_weather_report:
-  description: Combine the parsed weather details into a comprehensive weather report
-    that clearly presents the current conditions in {city} and {country}.
-  expected_output: A final weather report that is clear, formatted, and includes all
-    necessary weather details for {city} and {country}.
-  async_execution: false
-  agent: weather_reporter
-  context:
-  - parse_weather_data
+# generate_weather_report:
+#   description: Combine the parsed weather details into a comprehensive weather report
+#     that clearly presents the current conditions in {city}.
+#   expected_output: A final weather report that is clear, formatted, and includes all
+#     necessary weather details for {city}.
+#   async_execution: false
+#   agent: weather_reporter
+#   context:
+#   - parse_weather_data
+
+
+
+
+

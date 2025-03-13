@@ -1,124 +1,56 @@
-from crewai import Agent, Crew, Process, Task, LLM
-from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import WebsiteSearchTool
-import os
+# from crewai import Agent, Crew, Task, LLM
+# from crewai.project import CrewBase, agent, crew, task
+# from weather_internet_agent_chat.tools.weather_tool import get_weather
+# import os
 
-API_KEY=os.getenv("GOOGLE_API_KEY")
-
-llm =LLM(
-     model= "gemini/gemini-1.5-flash",
-     api_key= API_KEY
-)
-
-web_search = WebsiteSearchTool(
-    config=dict(
-        llm=dict(
-            provider="google",  # or google, openai, anthropic, llama2, ...
-            config=dict(
-                model="gemini/gemini-2.0-flash",
-            ),
-        ),
-        embedder=dict(
-            provider="google",  # or openai, ollama, ...
-            config=dict(
-                model="models/embedding-001",
-                task_type="retrieval_document",
-                title="Embeddings",
-            ),
-        ),
-    )
-)
-
-@CrewBase
-class WeatherInternetAgentChatCrew():
-    """WeatherInternetAgentChat crew"""
-
-    @agent
-    def weather_input_collector(self) -> Agent:
-        return Agent(
-            config=self.agents_config['weather_input_collector'],
-            tools=[],
-            llm = llm
-        )
-
-    @agent
-    def weather_query_builder(self) -> Agent:
-        return Agent(
-            config=self.agents_config['weather_query_builder'],
-            tools=[],
-            llm = llm
-        )
-
-    @agent
-    def weather_data_retriever(self) -> Agent:
-        return Agent(
-            config=self.agents_config['weather_data_retriever'],
-            tools=[web_search],
-            llm = llm
-        )
-
-    @agent
-    def weather_data_parser(self) -> Agent:
-        return Agent(
-            config=self.agents_config['weather_data_parser'],
-            tools=[],
-            llm = llm
-        )
-
-    @agent
-    def weather_reporter(self) -> Agent:
-        return Agent(
-            config=self.agents_config['weather_reporter'],
-            tools=[],
-            llm = llm
-        )
+# weather_tool = get_weather
 
 
-    @task
-    def collect_weather_input(self) -> Task:
-        return Task(
-            config=self.tasks_config['collect_weather_input'],
-            tools=[],
-        )
 
-    @task
-    def build_weather_query(self) -> Task:
-        return Task(
-            config=self.tasks_config['build_weather_query'],
-            tools=[],
-        )
+# # import agentops
+# # agentops.init(
+# #     api_key='88e0cae8-c352-4a97-80f3-ccf4aec68b20',
+# #     default_tags=['crewai']
+# # )
 
-    @task
-    def retrieve_weather_data(self) -> Task:
-        return Task(
-            config=self.tasks_config['retrieve_weather_data'],
-            tools=[web_search],
-        )
+# API_KEY=os.getenv("GOOGLE_API_KEY")
 
-    @task
-    def parse_weather_data(self) -> Task:
-        return Task(
-            config=self.tasks_config['parse_weather_data'],
-            tools=[],
-        )
-
-    @task
-    def generate_weather_report(self) -> Task:
-        return Task(
-            config=self.tasks_config['generate_weather_report'],
-            tools=[],
-        )
+# llm =LLM(
+#      model= "gemini/gemini-1.5-flash",
+#      api_key= API_KEY
+# )
 
 
-    @crew
-    def crew(self) -> Crew:
-        """Creates the WeatherInternetAgentChat crew"""
-        return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
-            process=Process.sequential,
-            verbose=True,
-            planning=True,
-            planning_llm= llm,
-            chat_llm = "gemini/gemini-2.0-flash"
-        )
+# @CrewBase
+# class WeatherInternetAgentChatCrew():
+#     """WeatherInternetAgentChat crew"""
+
+#     @agent
+#     def weather_agent(self)->Agent:
+#         return Agent(
+#             role="Weather Forecaster",
+#             goal="Provide accurate real-time weather data for given city {city}.",
+#             backstory="Providing up-to-date and accurate weather reports",
+#             llm=llm,
+#             tools=[weather_tool],  # Add the tool here
+#             verbose=True  # Enable logging
+#         )
+    
+#     @task
+#     def weather_task(self)->Task:
+#         return Task(
+#             description="Fetch the latest weather details for a {city}.",
+#             expected_output="A weather report with temperature, humidity, wind speed, and condition."
+#     )
+
+  
+#     @crew
+#     def crew(self) -> Crew:
+#         """Creates the WeatherInternetAgentChat crew"""
+#         return Crew(
+#             agents=self.weather_agent, # Automatically created by the @agent decorator
+#             tasks=self.weather_task, # Automatically created by the @task decorator
+#             verbose=True,
+#             planning=True,
+#             planning_llm= llm,
+#         )
